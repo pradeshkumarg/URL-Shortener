@@ -32,6 +32,7 @@ app.get("/new/:urlToShorten(*)", (req, res, next) => {
       if (err) {
         return res.send('Error saving to database');
       };
+      console.log("Saved Successfully");
       return res.json(data);
     })
   }
@@ -49,21 +50,30 @@ app.get("/:shorterUrl",(req,res,next)=>{
 
 // Stores the value of param
   var {shorterUrl} = req.params;
+  console.log(shorterUrl);
+  if(shorterUrl === "favicon.ico"){
+    console.log(true);
+    res.json();
+  }
+  else{
 
-  shortUrl.findOne({'shorterUrl':shorterUrl},(err,data)=>{
-
-    if(err){
-      return res.send('Error occurred while reading database...');
-    }
-    var re = new RegExp("^(http|https)://","i");
-    var strToCheck = data.originalUrl;
-    if(re.test(strToCheck)){
-      res.redirect(301,data.originalUrl);
-    }
-    else {
-      res.redirect(301,"http://"+data.originalUrl)
-    }
-  });
+      shortUrl.findOne({'shorterUrl':shorterUrl}, (err,data)=>{
+        console.log(err);
+        console.log(data);
+        if(err){
+          return res.send('Error occurred while reading database...');
+        }
+        var re = new RegExp("^(http|https)://","i");
+        var strToCheck = data.originalUrl;
+        console.log(strToCheck);
+        if(re.test(strToCheck)){
+          res.redirect(301,data.originalUrl);
+        }
+        else {
+          res.redirect(301,"http://"+data.originalUrl)
+        }
+      });
+  }
 });
 
 

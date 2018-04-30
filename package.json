@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js",
+    "prestart": "sudo mongod --port 8080 --dbpath=./data"
   },
   "author": "Pradesh Kumar",
   "license": "ISC",
